@@ -40,6 +40,7 @@ app.use(async (req, res, next) => {
 app.use('/users', userRoutes);
 app.use('/users/activities', activityRoutes);
 app.get("/", (req, res) => res.send({ message: "Express on Vercel" }));
+// asd
 app.listen(3001, () => console.log("Server ready on port 3001."));
 module.exports = app;
 //# sourceMappingURL=index.js.map
