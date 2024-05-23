@@ -1,8 +1,11 @@
 {
   "name": "express-scrap-ts",
   "version": "1.0.0",
-  "main": "api/index.js",
-
+  "main": "api/src/index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "tsc": "tsc"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.12.12"
@@ -14,6 +17,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongodb": "^6.6.2",
+    "nodemon": "^3.1.0",
     "typescript": "^5.4.5"
   }
 }
