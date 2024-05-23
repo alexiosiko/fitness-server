@@ -57,7 +57,7 @@ router.put('/update', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             return res.status(404).send({ message: "User not found" });
         }
         // Find the day in the calendar that matches the target date
-        const dayIndex = user.calendar.findIndex(day => {
+        const dayIndex = user.calendar.findIndex((day) => {
             const calendarDate = new Date(day.date);
             calendarDate.setHours(0, 0, 0, 0);
             return calendarDate.getTime() === targetDate.getTime();
