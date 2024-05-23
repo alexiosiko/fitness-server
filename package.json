@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon api/index",
-    "vercel-run": "node api/src/index.js"
+    "dev": "nodemon ./api/src/index",
+    "vercel-run": "node ./api/src/index.js"
   },
   "main": "index.js",
   "license": "MIT",

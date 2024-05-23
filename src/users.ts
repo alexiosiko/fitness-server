@@ -1,5 +1,5 @@
 import { Collection } from "mongodb";
-import { UserDataTypeWithout_id } from './../types/user'
+import { UserDataTypeWithout_id } from '../types/user'
 
 const express = require("express");
 const router = express.Router();
