@@ -4,7 +4,7 @@
 		"moduleResolution": "NodeNext",
 		"target": "ES2022",
 		"sourceMap": true,
-		"outDir": "./api",
+		"outDir": "api",
 	},
 	"include": ["./src/**/*"]
 
