@@ -1,9 +1,11 @@
+import { Response } from "express";
+import { Db, MongoClient } from "mongodb";
+
 const express = require("express");
 const app = express();
 const cors = require('cors');
 const userRoutes = require('./users')
 const activityRoutes = require('./activities')
-const { MongoClient } = require("mongodb");
 require('dotenv').config();
 
 app.use(cors())
@@ -16,13 +18,13 @@ if (connectionString === null)
 	console.error("Missing MONGODB_URI")
 if (dbName === null)
 	console.error("Missing DB_NAME")
-let db = undefined;
+let db: Db | undefined = undefined;
 
 
 async function connectToMongoDB() {
 	if (db !== undefined)
 		return db;
-	const client = new MongoClient(connectionString);
+	const client: MongoClient = new MongoClient(connectionString as string);
 	try {
 	  await client.connect();
 	  console.log("Connected to MongoDB");
@@ -35,14 +37,14 @@ async function connectToMongoDB() {
 }
   
 // Middleware to make MongoDB connection available in request object
-app.use(async (req, res, next) => {
-	req.db = await connectToMongoDB();
+app.use(async (req: Request, res: Response, next: any) => {
+	(req as any).db = await connectToMongoDB();
 	next();
 });
 
 app.use('/users', userRoutes);
 app.use('/users/activities', activityRoutes);
-app.get("/", (req, res) => res.send({ message: "Express on Vercel"}));
+app.get("/", (req: Request, res: Response) => res.send({ message: "Express on Vercel"}));
 // asd
 app.listen(3001, () => console.log("Server ready on port 3001."));
 

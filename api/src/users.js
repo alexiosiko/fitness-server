@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const router = express.Router();
@@ -13,7 +22,7 @@ const router = express.Router();
 // 	}
 // 	res.send({ message: "User deleted :D" });
 // })
-router.post('/create', async (req, res) => {
+router.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     const userId = body.data.id;
     if (userId == null)
@@ -26,39 +35,39 @@ router.post('/create', async (req, res) => {
             }],
         dailyCalorieTarget: 2000,
     };
-    const userExists = await req.db.collection('users').findOne(user);
+    const userExists = yield req.db.collection('users').findOne(user);
     if (userExists) {
         res.send({ message: "User already exists :D" });
         return;
     }
-    const result = await req.db.collection('users').insertOne(user);
+    const result = yield req.db.collection('users').insertOne(user);
     if (result.insertedCount === 0) {
         res.send({ message: "Couldn't create user :(" }).status(500);
         return;
     }
     res.send({ message: "Created user :D" });
-});
-router.put('/update', async (req, res) => {
+}));
+router.put('/update', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     const userId = body.userId;
     const params = body.params;
-    const collection = await req.db.collection('users');
+    const collection = yield req.db.collection('users');
     if (params == null) {
         return res.status(400).send({ message: "Params is null" });
     }
-    const userExists = await collection.findOne({ userId: userId });
+    const userExists = yield collection.findOne({ userId: userId });
     if (!userExists) {
         return res.status(404).send({ message: "User not found" });
     }
     // Update the user with the provided params
-    const result = await collection.updateOne({ userId: userId }, // Filter criteria
+    const result = yield collection.updateOne({ userId: userId }, // Filter criteria
     { $set: params } // Updated data
     );
     if (result.modifiedCount === 0)
         return res.status(500).send({ message: "Found user, but nothing to update" });
     return res.send({ message: "User updated successfully" });
-});
-router.put('/update-calorie-target', async (req, res) => {
+}));
+router.put('/update-calorie-target', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, dailyCalorieTarget } = req.body;
     console.log(userId);
     if (!userId || !dailyCalorieTarget) {
@@ -66,7 +75,7 @@ router.put('/update-calorie-target', async (req, res) => {
     }
     const collection = req.db.collection('users');
     try {
-        const result = await collection.updateOne({ userId: userId }, // assuming userId is the document identifier
+        const result = yield collection.updateOne({ userId: userId }, // assuming userId is the document identifier
         { $set: { dailyCalorieTarget: dailyCalorieTarget } });
         console.log(result);
         if (result.matchedCount === 0) {
@@ -78,15 +87,14 @@ router.put('/update-calorie-target', async (req, res) => {
         console.error('Error updating dailyCalorieTarget:', error);
         return res.status(500).send('Internal Server Error');
     }
-});
-router.post('/', async (req, res) => {
+}));
+router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.body.userId;
     console.log(`Getting user ${userId}`);
-    const user = await req.db.collection('users').findOne({ userId: userId });
+    const user = yield req.db.collection('users').findOne({ userId: userId });
     if (!user) {
         return res.send({ message: "Could not fetch user :(" }).status(500);
     }
     return res.send({ user: JSON.stringify(user) }); // Deep serialize
-});
+}));
 module.exports = router;
-//# sourceMappingURL=users.js.map

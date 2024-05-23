@@ -1,5 +1,6 @@
-import { Collection } from 'mongodb';
+import { Collection, CollectionInfo } from 'mongodb';
 import { UserDataTypeWithout_id } from '../types/user'
+import { Request, Response } from 'express';
 
 const express = require("express");
 const router = express.Router();
@@ -17,7 +18,7 @@ const router = express.Router();
 // 	res.send({ message: "User deleted :D" });
 // })
 
-router.post('/create', async (req, res) => {
+router.post('/create', async (req: Request, res: Response) => {
 	const body = req.body;
 	const userId = body.data.id;
 	if (userId == null) 
@@ -31,12 +32,12 @@ router.post('/create', async (req, res) => {
 		}],
 		dailyCalorieTarget: 2000,
 	}
-	const userExists = await req.db.collection('users').findOne(user)
+	const userExists = await (req as any).db.collection('users').findOne(user)
 	if (userExists) {
 		res.send({ message: "User already exists :D"})
 		return;
 	}
-	const result = await req.db.collection('users').insertOne(user);
+	const result = await (req as any).db.collection('users').insertOne(user);
 	if (result.insertedCount === 0) {
 		res.send({ message: "Couldn't create user :("}).status(500);
 		return;
@@ -44,11 +45,11 @@ router.post('/create', async (req, res) => {
 
 	res.send({ message: "Created user :D"})
 })
-router.put('/update', async (req, res) => {
+router.put('/update', async (req: Request, res: Response) => {
 	const body = req.body;
 	const userId = body.userId;
 	const params = body.params;
-	const collection: Collection = await req.db.collection('users');
+	const collection: Collection = await (req as any).db.collection('users');
 	if (params == null) {
 		return res.status(400).send({ message: "Params is null" });
 	}
@@ -67,13 +68,13 @@ router.put('/update', async (req, res) => {
 
 	return res.send({ message: "User updated successfully" });
 })
-router.put('/update-calorie-target', async (req, res) => {
+router.put('/update-calorie-target', async (req: Request, res: Response) => {
 	const { userId, dailyCalorieTarget } = req.body;
 	console.log(userId);
 	if (!userId || !dailyCalorieTarget) {
 		return res.status(400).send('userId and dailyCalorieTarget are required');
 	}
-	const collection: Collection = req.db.collection('users');
+	const collection: Collection = (req as any).db.collection('users');
 	try {
 		const result = await collection.updateOne(
 		  { userId: userId },  // assuming userId is the document identifier
@@ -91,10 +92,10 @@ router.put('/update-calorie-target', async (req, res) => {
 	  }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
 	const userId = req.body.userId;
 	console.log(`Getting user ${userId}`);
-	const user = await req.db.collection('users').findOne({ userId: userId })
+	const user = await (req as any).db.collection('users').findOne({ userId: userId })
 	if (!user) {
         return res.send({ message: "Could not fetch user :(" }).status(500);
 	}
