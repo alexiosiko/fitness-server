@@ -1,11 +1,12 @@
+import { Request, Response } from "express";
 import { Collection } from "mongodb";
 
 const express = require("express");
 const router = express.Router();
 
-router.put('/', async (req, res) => {
+router.put('/', async (req: Request, res: Response) => {
 	try {
-		const collection = req.db.collection('users');
+		const collection = (req as any).db.collection('users');
 		const { userId, activity } = req.body;
 
 		const today = getTodayDate();
@@ -37,18 +38,18 @@ router.put('/', async (req, res) => {
 	}
 })
 
-router.put('/delete', async (req, res) => {
+router.put('/delete', async (req: Request, res: Response) => {
 	try {
-		const collection: Collection = req.db.collection('users');
+		const collection: Collection = (req as any).db.collection('users');
 		
 	} catch (e) {
 		res.status(500).send({ message: "Error" });
 	}
 
 })
-router.put('/update', async (req, res) => {
+router.put('/update', async (req: Request, res: Response) => {
 	try {
-		const collection: Collection = req.db.collection('users');
+		const collection: Collection = (req as any).db.collection('users');
 		const { activity, userId, date, index } = req.body;
 
 		// Convert the provided date to only include year, month, and day (ignore time)
@@ -61,7 +62,7 @@ router.put('/update', async (req, res) => {
 		}
 
 		// Find the day in the calendar that matches the target date
-		const dayIndex = user.calendar.findIndex(day => {
+		const dayIndex = user.calendar.findIndex((day: any) => {
 			const calendarDate = new Date(day.date);
 			calendarDate.setHours(0, 0, 0, 0);
 			return calendarDate.getTime() === targetDate.getTime();
