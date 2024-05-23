@@ -6,6 +6,6 @@
 		"sourceMap": true,
 		"outDir": "api",
 	},
-	"include": ["./src/**/*"]
+	"include": ["./src/**/*", "index.ts", "src/activities.ts"]
 
 }

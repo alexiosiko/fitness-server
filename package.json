@@ -2,9 +2,7 @@
   "name": "express-scrap-ts",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon ./api/src/index",
-    "vercel-run": "node ./api/src/index.js"
+    "build": "tsc"
   },
   "main": "index.js",
   "license": "MIT",
