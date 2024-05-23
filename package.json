@@ -2,9 +2,7 @@
   "name": "express-scrap-ts",
   "version": "1.0.0",
   "main": "api/index.js",
-  "scripts": {
-    "build": "tsc"
-  },
+
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.12.12"
