@@ -24,6 +24,7 @@ let db: Db | undefined = undefined;
 async function connectToMongoDB() {
 	if (db !== undefined)
 		return db;
+	console.log("Connecting to db...");
 	const client: MongoClient = new MongoClient(connectionString as string);
 	try {
 	  await client.connect();

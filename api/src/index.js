@@ -30,6 +30,7 @@ function connectToMongoDB() {
     return __awaiter(this, void 0, void 0, function* () {
         if (db !== undefined)
             return db;
+        console.log("Connecting to db...");
         const client = new mongodb_1.MongoClient(connectionString);
         try {
             yield client.connect();

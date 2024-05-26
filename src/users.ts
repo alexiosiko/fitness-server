@@ -26,10 +26,7 @@ router.post('/create', async (req: Request, res: Response) => {
 	
 	const user: UserDataTypeWithout_id = {
 		userId: body.data.id,
-		calendar: [{
-			activities: [],
-			date: new Date()
-		}],
+		days: [],
 		dailyCalorieTarget: 2000,
 	}
 	const userExists = await (req as any).db.collection('users').findOne(user)
@@ -70,7 +67,6 @@ router.put('/update', async (req: Request, res: Response) => {
 })
 router.put('/update-calorie-target', async (req: Request, res: Response) => {
 	const { userId, dailyCalorieTarget } = req.body;
-	console.log(userId);
 	if (!userId || !dailyCalorieTarget) {
 		return res.status(400).send('userId and dailyCalorieTarget are required');
 	}
@@ -95,7 +91,7 @@ router.put('/update-calorie-target', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
 	const userId = req.body.userId;
 	console.log(`Getting user ${userId}`);
-	const user = await (req as any).db.collection('users').findOne({ userId: userId })
+	const user: UserDataTypeWithout_id = await (req as any).db.collection('users').findOne({ userId: userId })
 	if (!user) {
         return res.send({ message: "Could not fetch user :(" }).status(500);
 	}

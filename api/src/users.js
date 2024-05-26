@@ -29,10 +29,7 @@ router.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(422).send({ message: "Bad userId param" });
     const user = {
         userId: body.data.id,
-        calendar: [{
-                activities: [],
-                date: new Date()
-            }],
+        days: [],
         dailyCalorieTarget: 2000,
     };
     const userExists = yield req.db.collection('users').findOne(user);
@@ -69,7 +66,6 @@ router.put('/update', (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 router.put('/update-calorie-target', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, dailyCalorieTarget } = req.body;
-    console.log(userId);
     if (!userId || !dailyCalorieTarget) {
         return res.status(400).send('userId and dailyCalorieTarget are required');
     }
