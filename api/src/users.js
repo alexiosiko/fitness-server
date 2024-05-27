@@ -65,15 +65,13 @@ router.put('/update', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     return res.send({ message: "User updated successfully" });
 }));
 router.put('/update-calorie-target', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, dailyCalorieTarget } = req.body;
-    if (!userId || !dailyCalorieTarget) {
-        return res.status(400).send('userId and dailyCalorieTarget are required');
-    }
-    const collection = req.db.collection('users');
     try {
+        const { userId, dailyCalorieTarget } = req.body;
+        const collection = req.db.collection('users');
+        if (!userId || !dailyCalorieTarget)
+            return res.status(400).send('userId and dailyCalorieTarget are required');
         const result = yield collection.updateOne({ userId: userId }, // assuming userId is the document identifier
         { $set: { dailyCalorieTarget: dailyCalorieTarget } });
-        console.log(result);
         if (result.matchedCount === 0) {
             return res.status(404).send({ message: 'User not found' });
         }
