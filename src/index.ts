@@ -5,7 +5,10 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const userRoutes = require('./users')
-const activityRoutes = require('./activities')
+const actionRoutes = require('./actions')
+const openaiRoutes = require('./openai')
+const foods = require('./foods');
+const exersizes = require('./exercises');
 require('dotenv').config();
 
 app.use(cors())
@@ -44,7 +47,11 @@ app.use(async (req: Request, res: Response, next: any) => {
 });
 
 app.use('/users', userRoutes);
-app.use('/users/activities', activityRoutes);
+app.use('/users/actions', actionRoutes);
+app.use('/openai', openaiRoutes);
+app.use('/users/foods', foods);
+app.use('/users/exercises', exersizes);
+
 app.get("/", (req: Request, res: Response) => res.send({ message: "Express on Vercel"}));
 // asd
 app.listen(3001, () => console.log("Server ready on port 3001."));
